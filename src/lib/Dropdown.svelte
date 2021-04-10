@@ -15,11 +15,16 @@
 >
 	<div class="flex justify-between items-center">
 		{#if !selected}
-			{placeholder}
+			{placeholder} <i class="fas fa-sort-down" />
 		{:else}
-			{selected}
+			{selected.name}
+			<i
+				class="fas fa-times"
+				on:click={() => {
+					selected = undefined;
+				}}
+			/>
 		{/if}
-		<i class="fas fa-sort-down" />
 	</div>
 	<hr />
 
@@ -34,7 +39,7 @@
 						selected = item;
 					}}
 				>
-					{item}
+					{item.name}
 				</div>
 			{/each}
 		</div>

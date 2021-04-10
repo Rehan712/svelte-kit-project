@@ -3,6 +3,7 @@
 	import Filter from '$lib/Fahrraeder/Filter.svelte';
 	import Rad from '$lib/Fahrraeder/Rad.svelte';
 	import res from '$lib/Fahrraeder/test.js';
+
 	let items = res[0].data;
 	onMount(() => {
 		// const endpoint =
@@ -24,8 +25,8 @@
 	</p>
 </section>
 
-<Filter {items}>
-	{#each items as item}
+<Filter {items} let:items={back}>
+	{#each back as item}
 		<Rad {item} />
 	{:else}
 		no Data
