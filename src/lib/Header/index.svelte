@@ -1,59 +1,61 @@
 <script>
+	import { slide } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 	let navExpand = false;
 </script>
 
 <header>
-	<div class="background">
-		<img src="/images/velophil-logo.png" alt="" class="headerimg" />
+	<div
+		class="bg-header"
+		on:click={() => {
+			goto('/');
+		}}
+	>
+		<img src="/images/velophil-logo.png" alt="" class="w-4/5" />
 	</div>
-	<nav>
-		<div
-			on:click={() => {
-				navExpand = !navExpand;
-			}}
+	<div
+		on:click={() => {
+			navExpand = !navExpand;
+		}}
+		class="flex justify-center items-center text-xl gap-2 font-bold bg-yellow text-white p-2"
+	>
+		{#if navExpand}
+			<i class="fas fa-times" />
+		{:else}
+			<i class="fas fa-bars" />
+			<h2 class="">Menu</h2>
+		{/if}
+	</div>
+	{#if navExpand}
+		<nav
+			class="flex flex-col bg-yellow text-white justify-center items-center p-2 font-sans gap-6"
+			transition:slide
 		>
-			{#if navExpand}
+			<div
+				on:click={() => {
+					goto('/fahrraeder');
+				}}
+			>
+				Räder
+			</div>
+			<div>Zubehör</div>
+			<div>Service</div>
+			<div>Ergonomie</div>
+			<div>Aktivitäten</div>
+			<div>galerie</div>
+			<div>Über uns</div>
+			<div>Kontakt</div>
+			<div>Newsletter</div>
+			<div>
+				<input type="text" placeholder="Suche" class="p-2 placeholder-gray-600 rounded" />
+			</div>
+			<div
+				on:click={() => {
+					navExpand = !navExpand;
+				}}
+			>
 				<i class="fas fa-times" />
-			{:else}
-				<i class="fas fa-bars" />
-				<h2>Menu</h2>
-			{/if}
-		</div>
-		{#if navExpand}{/if}
-	</nav>
+			</div>
+		</nav>
+	{/if}
 </header>
-
-<style lang="scss">
-	header {
-		.background {
-			background-color: #f1ede3;
-			position: relative;
-			img {
-				width: 80%;
-			}
-		}
-		nav {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			background: #fbb900;
-			color: white;
-			gap: 0.5rem;
-			padding: 0.5rem;
-			div {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				gap: 0.5rem;
-				i {
-					font-size: 1.5rem;
-				}
-				h2 {
-					margin: 0;
-					padding: 0;
-					font-size: 1.2rem;
-				}
-			}
-		}
-	}
-</style>

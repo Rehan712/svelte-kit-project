@@ -19,8 +19,14 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				yellow: '#fbb900'
+				yellow: '#fbb900',
+				header: '#f1ede3',
+				red: "#C51A1B"
 			}
 		}
 	},
-	varia
+	variants: {
+		extend: {}
+	},
+	plugins: []
+};
