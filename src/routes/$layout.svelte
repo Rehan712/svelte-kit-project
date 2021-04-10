@@ -3,9 +3,11 @@
 	import Header from '$lib/Header/index.svelte';
 </script>
 
-<Header />
+<div class="md:p-4 xl:w-4/5 xl:mx-auto">
+	<Header />
 
-<slot />
+	<slot />
+</div>
 
 <style global>
 	@tailwind base;

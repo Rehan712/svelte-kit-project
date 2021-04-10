@@ -11,7 +11,7 @@
 	on:click={() => {
 		extended = !extended;
 	}}
-	class="flex flex-col bg-white text-gray-700 rounded p-2 m-2 "
+	class="flex flex-col bg-white text-gray-700 rounded p-2 relative"
 >
 	<div class="flex justify-between items-center">
 		{#if !selected}
@@ -24,7 +24,10 @@
 	<hr />
 
 	{#if extended}
-		<div transition:slide class="mt-2">
+		<div
+			transition:slide
+			class="mt-2 md:m-0 md:absolute top-full bg-white left-0 right-0 p-2 md:mt-1"
+		>
 			{#each items as item}
 				<div
 					on:click={() => {
