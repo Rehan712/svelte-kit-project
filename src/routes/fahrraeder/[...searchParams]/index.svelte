@@ -21,7 +21,7 @@
 
 <section class="flex flex-col justify-center items-center h-64">
 	<h2 class="text-red font-bold text-xl">Fahrräder</h2>
-	<p class="flex justify-center items-center text-center w-96">
+	<p class="flex justify-center items-center text-center w-96 flex-col">
 		Hier eine Auswahl der interessantesten Räder, die bei uns zur Probefahrt bereitstehen. Das ist
 		aber noch längst nicht alles – besuchen Sie uns im Laden
 	</p>

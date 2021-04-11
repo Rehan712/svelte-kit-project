@@ -21,7 +21,8 @@ module.exports = {
 			colors: {
 				yellow: '#fbb900',
 				header: '#f1ede3',
-				red: "#C51A1B"
+				red: '#C51A1B',
+				radHintergrund: '#f1ede3'
 			}
 		}
 	},

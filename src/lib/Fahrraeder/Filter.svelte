@@ -155,7 +155,7 @@
 </script>
 
 <section
-	class='bg-yellow text-white relative p-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4'
+	class="bg-yellow text-white relative p-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4"
 >
 	<div>
 		Marke
@@ -188,7 +188,7 @@
 		/>
 	</div>
 	<button
-		class='bg-red p-4 rounded-full w-full md:col-span-3 lg:col-span-1'
+		class="bg-red p-4 rounded-full w-full md:col-span-3 lg:col-span-1"
 		on:click={() => {
 			applyFilter(items, filterParams);
 			goto(getNewURL(), { replaceState: true });
@@ -198,6 +198,6 @@
 	</button>
 </section>
 
-<section class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2'>
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2">
 	<slot items={itemsout} />
 </section>
