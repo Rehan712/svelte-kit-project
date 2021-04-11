@@ -1,8 +1,16 @@
 <script>
 	import { slide } from 'svelte/transition';
 	import { goto } from '$app/navigation';
+	import { fly } from 'svelte/transition';
 	let navExpand = false;
 	let windowInnerWidth;
+	let search = undefined;
+	let searchExpand = false;
+	function useSearch(event) {
+		if (event.code == 'Enter') {
+			goto(`https://velophil.berlin/?s=${search}&submit=Suche`);
+		}
+	}
 </script>
 
 <svelte:window bind:innerWidth={windowInnerWidth} />
@@ -31,7 +39,7 @@
 	</div>
 	{#if navExpand || windowInnerWidth > 1024}
 		<nav
-			class="flex flex-col md:flex-row bg-yellow text-white justify-evenly items-center p-2 font-sans gap-6"
+			class="flex flex-col md:flex-row bg-yellow text-white justify-evenly items-center p-2 font-sans gap-6 relative"
 			transition:slide
 		>
 			<div
@@ -49,9 +57,53 @@
 			<div>Über uns</div>
 			<div>Kontakt</div>
 			<div>Newsletter</div>
-			<div>
-				<input type="text" placeholder="Suche" class="p-2 placeholder-gray-600 rounded" />
-			</div>
+			{#if windowInnerWidth < 1024}
+				<form on:submit|preventDefault={() => {}}>
+					<input
+						type="text"
+						placeholder="Suche"
+						class="p-2 placeholder-gray-600 rounded text-black"
+						bind:value={search}
+						on:keypress={useSearch}
+					/>
+				</form>
+			{:else}
+				<div class="">
+					<div
+						on:click={() => {
+							searchExpand = !searchExpand;
+						}}
+					>
+						<i class="fas fa-search" />
+					</div>
+					{#if searchExpand}
+						<form
+							class="absolute right-0 top-0 bottom-0 bg-red px-2 flex gap-2 justify-center items-center"
+							transition:fly={{
+								delay: 250,
+								duration: 300,
+								x: 300,
+								y: 0,
+								opacity: 0.0
+							}}
+						>
+							<input
+								type="text"
+								placeholder="Suche"
+								class="placeholder-gray-50 text-gray-300 bg-red border-b rounded-none shadow-none p-0 border-gray-100"
+								bind:value={search}
+								on:keypress={useSearch}
+							/>
+							<i
+								class="fas fa-times"
+								on:click={() => {
+									searchExpand = !searchExpand;
+								}}
+							/>
+						</form>
+					{/if}
+				</div>
+			{/if}
 			<div
 				on:click={() => {
 					navExpand = !navExpand;
