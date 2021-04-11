@@ -4,7 +4,14 @@
 	export let items = [];
 	export let placeholder = '';
 	export let selected;
+	export let preApplyFilter = () => {};
+	export let type;
 	let extended = false;
+	let preFilterTemplate = {};
+	function preApplyFilterApply(item) {
+		preFilterTemplate[type] = item;
+		return preApplyFilter(preFilterTemplate);
+	}
 </script>
 
 <div
@@ -38,8 +45,9 @@
 					on:click={() => {
 						selected = item;
 					}}
+					class="flex gap-2"
 				>
-					{item.name}
+					{item.name} ({preApplyFilterApply(item)})
 				</div>
 			{/each}
 		</div>

@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { writable } from 'svelte/store';
 
 	export let items = [];
 
@@ -114,23 +115,18 @@
 					return i.slugg === e;
 				});
 			}
-			console.log(
-				antriebe.find((i) => {
-					return i.slugg === e;
-				}),
-				antriebe,
-				e,
-				filterParams
-			);
 		});
 
-		console.log($page.params.searchParams.split('/'));
-		applyFilter(items);
+		applyFilter(filterParams);
 	});
 
-	function applyFilter(items, searchParams) {
-		if (!filterParams) return;
-		itemsout = items
+	function applyFilter(filterParams) {
+		itemsout = filter(items, filterParams);
+	}
+
+	function filter(items, filterParams) {
+		if (!filterParams || !items) return items;
+		return items
 			.filter(
 				(bicycle) =>
 					!filterParams.marke || bicycle.taxonomies_slugged[filterParams.marke.slugg] === 'marke'
@@ -151,6 +147,11 @@
 			filterParams.type ? filterParams.type.slugg + '/' : ''
 		}${filterParams.antrieb ? filterParams.antrieb.slugg + '/' : ''}`;
 	}
+
+	function preApplyFilter(filterParamsNew) {
+		const store = writable(filter(itemsout, { ...filterParams, ...filterParamsNew }).length);
+		return store;
+	}
 </script>
 
 <section
@@ -158,25 +159,39 @@
 >
 	<div>
 		Marke
-		<Dropdown bind:items={marken} placeholder={'Marke'} bind:selected={filterParams.marke} />
+		<Dropdown
+			bind:items={marken}
+			placeholder={'Marke'}
+			type={'marke'}
+			bind:selected={filterParams.marke}
+			{preApplyFilter}
+		/>
 	</div>
 	<div>
 		Fahrradtyp
 		<Dropdown
 			bind:items={fahrradtypen}
 			placeholder={'Fahrradtyp'}
+			type={'type'}
 			bind:selected={filterParams.type}
+			{preApplyFilter}
 		/>
 	</div>
 	<div>
 		Antrieb
-		<Dropdown bind:items={antriebe} placeholder={'Antrieb'} bind:selected={filterParams.antrieb} />
+		<Dropdown
+			bind:items={antriebe}
+			placeholder={'Antrieb'}
+			type={'antrieb'}
+			bind:selected={filterParams.antrieb}
+			{preApplyFilter}
+		/>
 	</div>
 	<button
 		class="bg-red p-4 rounded-full w-full md:col-span-3 lg:col-span-1"
 		on:click={() => {
 			applyFilter(items, filterParams);
-			goto(getNewURL());
+			goto(getNewURL(), { replaceState: true });
 		}}
 	>
 		Anzeigen
