@@ -21,7 +21,7 @@
 		fetch(endpoint)
 			.then(r => r.json())
 			.then(r => {
-				$: (bicycles = r[0].data;
+				$: bicycles = r[0].data;
 			});
 	});
 
@@ -98,7 +98,7 @@
     return newUrl;
   }
   const filterBicycles = (excludedFilter) => {
-    const { bicycles } = state;
+    const { bicycles } = store;
     const {
       marke,
       fahrradtyp,
