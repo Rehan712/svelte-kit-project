@@ -6,14 +6,14 @@
 	import { writable } from 'svelte/store';
 
 	export let items = [];
-
-	let antriebe = [],
-		fahrradtypen = [],
-		marken = [];
 	let filterParams = {};
 	let itemsout = items;
-
-	onMount(() => {
+	let categorys = { marken: [], fahrradtypen: [], antriebe: [] };
+	function getCategorys(items) {
+		let antriebe = [],
+			fahrradtypen = [],
+			marken = [];
+		categorys = {};
 		items.forEach((item) => {
 			Object.keys(item.taxonomies).forEach((key) => {
 				if (item.taxonomies[key] == 'antrieb') {
@@ -49,7 +49,7 @@
 				}
 			}
 		}
-		antriebe = tempAntriebe;
+		categorys.antriebe = tempAntriebe;
 
 		let tempType = [];
 		loop1: for (let i = 0; i < fahrradtypen.length; i++) {
@@ -67,7 +67,7 @@
 				}
 			}
 		}
-		fahrradtypen = tempType;
+		categorys.fahrradtypen = tempType;
 
 		let tempMarke = [];
 		loop1: for (let i = 0; i < marken.length; i++) {
@@ -85,9 +85,15 @@
 				}
 			}
 		}
-		marken = tempMarke;
+		categorys.marken = tempMarke;
+		return categorys;
+	}
+
+	onMount(() => {
+		categorys = getCategorys(items);
 
 		$page.params.searchParams.split('/').forEach((e) => {
+			let { marken, fahrradtypen, antriebe } = categorys;
 			if (
 				marken.find((i) => {
 					return i.slugg === e;
@@ -121,6 +127,7 @@
 	});
 
 	function applyFilter(filterParams) {
+		console.log(filterParams);
 		itemsout = filter(items, filterParams);
 	}
 
@@ -147,11 +154,6 @@
 			filterParams.type ? filterParams.type.slugg + '/' : ''
 		}${filterParams.antrieb ? filterParams.antrieb.slugg + '/' : ''}`;
 	}
-
-	function preApplyFilter(filterParamsNew) {
-		const store = writable(filter(itemsout, { ...filterParams, ...filterParamsNew }).length);
-		return store;
-	}
 </script>
 
 <section
@@ -160,37 +162,45 @@
 	<div>
 		Marke
 		<Dropdown
-			bind:items={marken}
+			bind:items={categorys.marken}
 			placeholder={'Marke'}
 			type={'marke'}
 			bind:selected={filterParams.marke}
-			{preApplyFilter}
+			{itemsout}
+			{filter}
+			{filterParams}
 		/>
 	</div>
 	<div>
 		Fahrradtyp
+
 		<Dropdown
-			bind:items={fahrradtypen}
+			bind:items={categorys.fahrradtypen}
 			placeholder={'Fahrradtyp'}
 			type={'type'}
 			bind:selected={filterParams.type}
-			{preApplyFilter}
+			{itemsout}
+			{filter}
+			{filterParams}
 		/>
 	</div>
 	<div>
 		Antrieb
+
 		<Dropdown
-			bind:items={antriebe}
+			bind:items={categorys.antriebe}
 			placeholder={'Antrieb'}
 			type={'antrieb'}
 			bind:selected={filterParams.antrieb}
-			{preApplyFilter}
+			{itemsout}
+			{filter}
+			{filterParams}
 		/>
 	</div>
 	<button
 		class="bg-red p-4 rounded-full w-full md:col-span-3 lg:col-span-1"
 		on:click={() => {
-			applyFilter(items, filterParams);
+			applyFilter(filterParams);
 			goto(getNewURL(), { replaceState: true });
 		}}
 	>
