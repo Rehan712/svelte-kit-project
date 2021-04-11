@@ -45,7 +45,7 @@
 			<div>Service</div>
 			<div>Ergonomie</div>
 			<div>Aktivitäten</div>
-			<div>galerie</div>
+			<div>Galerie</div>
 			<div>Über uns</div>
 			<div>Kontakt</div>
 			<div>Newsletter</div>

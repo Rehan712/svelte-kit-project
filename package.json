@@ -1,5 +1,5 @@
 {
-	"name": "Jesusalc",
+	"name": "2021_bicycles_page_svelte_fe",
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "svelte-kit dev",
@@ -20,7 +20,9 @@
 		"sass": "^1.0.0",
 		"svelte": "^3.29.0",
 		"svelte-preprocess": "^4.7.0",
+		"svelte-select": "^3.17.0",
 		"tailwindcss": "^2.1.1",
+		"unfetch": "^4.2.0",
 		"vite": "^2.1.0"
 	},
 	"type": "module"
