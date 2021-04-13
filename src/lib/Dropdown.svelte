@@ -10,7 +10,7 @@
 	export let itemsout;
 	export let filter;
 	export let filterParams;
-	export let  getNewURL=()=>{}
+	export let getNewURL=()=>{}
 
 	let possibilitys = writable({});
 	let extended = false;

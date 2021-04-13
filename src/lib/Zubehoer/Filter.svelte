@@ -127,7 +127,7 @@
 					!filterParams.zubehoerart ||
 					bicycle.taxonomies_slugged[filterParams.zubehoerart.slugg] === 'zubehoerart'
 			)
-			.filter((bicycle) => !filterParams.angebot || bicycle.taxonomies_grouped.angebot);
+			.filter((bicycle) => !filterParams.angebot || bicycle.taxonomies_grouped.zuangebot);
 	}
 
 	function getNewURL() {
@@ -146,7 +146,7 @@
 		<Dropdown
 			bind:items={categories.zumarken}
 			placeholder={'Marke'}
-			type={'marke'}
+			type={'zumarke'}
 			bind:selected={$filterParams.zumarke}
 			{itemsout}
 			{filter}
@@ -155,11 +155,11 @@
 		/>
 	</div>
 	<div>
-		Fahrradtyp
+		Zubehör Art
 		<Dropdown
 			bind:items={categories.zubehoerarten}
-			placeholder={'Fahrradtyp'}
-			type={'type'}
+			placeholder={'Zubehör Art'}
+			type={'zubehoerart'}
 			bind:selected={$filterParams.zubehoerart}
 			{itemsout}
 			{filter}
