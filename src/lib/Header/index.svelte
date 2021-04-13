@@ -49,7 +49,13 @@
 			>
 				Räder
 			</div>
-			<div>Zubehör</div>
+			<div
+				on:click={() => {
+					goto('/zubehoer-ersatzteile');
+				}}
+			>
+				Zubehör
+			</div>
 			<div>Service</div>
 			<div>Ergonomie</div>
 			<div>Aktivitäten</div>

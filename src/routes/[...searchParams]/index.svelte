@@ -1,42 +1,23 @@
 <script>
-	import { onMount } from 'svelte';
-	import Filter from '$lib/Fahrraeder/Filter.svelte';
-	import Rad from '$lib/Fahrraeder/Rad.svelte';
-	import res from '$lib/Fahrraeder/test.js';
-	import { flip } from 'svelte/animate';
+	import FahrradFilter from '$lib/Fahrraeder/index.svelte';
+	import ZubehoerFilter from '$lib/Zubehoer/index.svelte';
+	import { page } from '$app/stores';
 
-	let items = res[0].data;
-
-	onMount(() => {
-		// const endpoint =
-		// 	'https://velophil.test/react-service.php?service=cycles&access_token=VMoxiRv9pyrb6MvwMMYAfNbRiU63QcCnREf4R8FVhAazP3RLDt4AGt79PFsJKhhM';
-		// fetch(endpoint)
-		// 	.then((r) => r.json())
-		// 	.then((r) => {
-		// 		data = r[0].data;
-		// 	});
+	let fahrradKeywords = ['marke', 'fahrradtyp', 'antrieb', 'angebot'];
+	let zubehörKeywords = ['zumarke', 'zubehoerart', 'zuangebot'];
+	let pageStr = '';
+	$page.params.searchParams.split('/').forEach((item) => {
+		if (fahrradKeywords.includes(item)) {
+			pageStr = 'fahrrad';
+		}
+		if (zubehörKeywords.includes(item)) {
+			pageStr = 'zubehör';
+		}
 	});
 </script>
 
-<section class="flex flex-col justify-center items-center h-64">
-	<h2 class="text-red font-bold text-xl">Fahrräder</h2>
-	<p class="flex justify-center items-center text-center w-96 flex-col">
-		Hier eine Auswahl der interessantesten Räder, die bei uns zur Probefahrt bereitstehen. Das ist
-		aber noch längst nicht alles – besuchen Sie uns im Laden
-	</p>
-	<div class="justify-center items-center flex mt-8 gap-1">
-		<div class="w-3 h-3 bg-red rounded-full" />
-		<div class="w-3 h-3 bg-red rounded-full" />
-		<div class="w-3 h-3 bg-red rounded-full" />
-	</div>
-</section>
-
-<Filter {items} let:items={back}>
-	{#each back as item (item)}
-		<div animate:flip={{ delay: 100, duration: 250 }}>
-			<Rad {item} />
-		</div>
-	{:else}
-		no Data
-	{/each}
-</Filter>
+{#if pageStr === 'fahrrad'}
+	<FahrradFilter />
+{:else if pageStr === 'zubehör'}
+	<ZubehoerFilter />
+{/if}

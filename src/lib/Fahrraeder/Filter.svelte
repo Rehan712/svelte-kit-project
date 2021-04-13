@@ -193,6 +193,7 @@
 			{itemsout}
 			{filter}
 			bind:filterParams={$filterParams}
+			{getNewURL}
 		/>
 	</div>
 	<div>
@@ -205,6 +206,7 @@
 			{itemsout}
 			{filter}
 			bind:filterParams={$filterParams}
+			{getNewURL}
 		/>
 	</div>
 	<div>
@@ -217,6 +219,7 @@
 			{itemsout}
 			{filter}
 			bind:filterParams={$filterParams}
+			{getNewURL}
 		/>
 	</div>
 	<button

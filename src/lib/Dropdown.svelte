@@ -10,10 +10,13 @@
 	export let itemsout;
 	export let filter;
 	export let filterParams;
+	export let  getNewURL=()=>{}
 
 	let possibilitys = writable({});
 	let extended = false;
 	let preFilterTemplate = {};
+
+	$: console.log(items);
 
 	$: setPossibilitys(itemsout, filterParams);
 
@@ -24,14 +27,6 @@
 		});
 	}
 
-	function getNewURL() {
-		let returnstr = '/';
-		if (filterParams.marke) returnstr += `marke/${filterParams.marke.slugg}/`;
-		if (filterParams.type) returnstr += `fahrradtyp/${filterParams.type.slugg}/`;
-		if (filterParams.antrieb) returnstr += `antrieb/${filterParams.antrieb.slugg}/`;
-		if (filterParams.angebot) returnstr += `angebot/angebote-anzeigen/`;
-		return returnstr;
-	}
 </script>
 
 <div
