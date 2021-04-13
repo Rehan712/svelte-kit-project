@@ -14,7 +14,6 @@
 		// 	.then((r) => r.json())
 		// 	.then((r) => {
 		// 		data = r[0].data;
-		// 		console.log(r);
 		// 	});
 	});
 </script>

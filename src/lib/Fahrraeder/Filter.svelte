@@ -1,14 +1,28 @@
 <script>
 	import Dropdown from '$lib/Dropdown.svelte';
+
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { writable } from 'svelte/store';
 
 	export let items = [];
-	let filterParams = {};
+
+	let filterParams = writable({});
 	let itemsout = items;
 	let categorys = { marken: [], fahrradtypen: [], antriebe: [] };
+
+	Object.prototype.isEmpty = function () {
+		for (var key in this) {
+			if (this.hasOwnProperty(key)) {
+				if (this[key]) {
+					return false;
+				}
+			}
+		}
+		return true;
+	};
+
 	function getCategorys(items) {
 		let antriebe = [],
 			fahrradtypen = [],
@@ -91,43 +105,48 @@
 
 	onMount(() => {
 		categorys = getCategorys(items);
+		if ($page.params.searchParams) {
+			$page.params.searchParams.split('/').forEach((e) => {
+				let { marken, fahrradtypen, antriebe } = categorys;
+				if (
+					marken.find((i) => {
+						return i.slugg === e;
+					})
+				) {
+					$filterParams.marke = marken.find((i) => {
+						return i.slugg === e;
+					});
+				}
+				if (
+					fahrradtypen.find((i) => {
+						return i.slugg === e;
+					})
+				) {
+					$filterParams.type = fahrradtypen.find((i) => {
+						return i.slugg === e;
+					});
+				}
+				if (
+					antriebe.find((i) => {
+						return i.slugg === e;
+					})
+				) {
+					$filterParams.antrieb = antriebe.find((i) => {
+						return i.slugg === e;
+					});
+				}
+				if (e == 'angebot') {
+					$filterParams.angebot = true;
+				}
+			});
+		}
 
-		$page.params.searchParams.split('/').forEach((e) => {
-			let { marken, fahrradtypen, antriebe } = categorys;
-			if (
-				marken.find((i) => {
-					return i.slugg === e;
-				})
-			) {
-				filterParams.marke = marken.find((i) => {
-					return i.slugg === e;
-				});
-			}
-			if (
-				fahrradtypen.find((i) => {
-					return i.slugg === e;
-				})
-			) {
-				filterParams.type = fahrradtypen.find((i) => {
-					return i.slugg === e;
-				});
-			}
-			if (
-				antriebe.find((i) => {
-					return i.slugg === e;
-				})
-			) {
-				filterParams.antrieb = antriebe.find((i) => {
-					return i.slugg === e;
-				});
-			}
-		});
-
-		applyFilter(filterParams);
+		applyFilter($filterParams);
 	});
 
+	$: applyFilter($filterParams);
+
 	function applyFilter(filterParams) {
-		console.log(filterParams);
 		itemsout = filter(items, filterParams);
 	}
 
@@ -146,13 +165,18 @@
 				(bicycle) =>
 					!filterParams.antrieb ||
 					bicycle.taxonomies_slugged[filterParams.antrieb.slugg] === 'antrieb'
-			);
+			)
+			.filter((bicycle) => !filterParams.angebot || bicycle.taxonomies_grouped.angebot);
 	}
 
 	function getNewURL() {
-		return `/fahrraeder/${filterParams.marke ? filterParams.marke.slugg + '/' : ''}${
-			filterParams.type ? filterParams.type.slugg + '/' : ''
-		}${filterParams.antrieb ? filterParams.antrieb.slugg + '/' : ''}`;
+		let returnstr = '/';
+		if ($filterParams.marke) returnstr += `marke/${$filterParams.marke.slugg}/`;
+		if ($filterParams.type) returnstr += `fahrradtyp/${$filterParams.type.slugg}/`;
+		if ($filterParams.antrieb) returnstr += `antrieb/${$filterParams.antrieb.slugg}/`;
+		if ($filterParams.angebot) returnstr += `angebot/angebote-anzeigen/`;
+		if ($filterParams.isEmpty()) returnstr += `fahrraeder/`;
+		return returnstr;
 	}
 </script>
 
@@ -165,49 +189,60 @@
 			bind:items={categorys.marken}
 			placeholder={'Marke'}
 			type={'marke'}
-			bind:selected={filterParams.marke}
+			bind:selected={$filterParams.marke}
 			{itemsout}
 			{filter}
-			{filterParams}
+			bind:filterParams={$filterParams}
 		/>
 	</div>
 	<div>
 		Fahrradtyp
-
 		<Dropdown
 			bind:items={categorys.fahrradtypen}
 			placeholder={'Fahrradtyp'}
 			type={'type'}
-			bind:selected={filterParams.type}
+			bind:selected={$filterParams.type}
 			{itemsout}
 			{filter}
-			{filterParams}
+			bind:filterParams={$filterParams}
 		/>
 	</div>
 	<div>
 		Antrieb
-
 		<Dropdown
 			bind:items={categorys.antriebe}
 			placeholder={'Antrieb'}
 			type={'antrieb'}
-			bind:selected={filterParams.antrieb}
+			bind:selected={$filterParams.antrieb}
 			{itemsout}
 			{filter}
-			{filterParams}
+			bind:filterParams={$filterParams}
 		/>
 	</div>
 	<button
 		class="bg-red p-4 rounded-full w-full md:col-span-3 lg:col-span-1"
 		on:click={() => {
-			applyFilter(filterParams);
-			goto(getNewURL(), { replaceState: true });
+			$filterParams.angebot = !$filterParams.angebot;
+			goto(getNewURL(), { replaceState: true, noscroll: true });
 		}}
 	>
-		Anzeigen
+		{#if $filterParams.angebot}
+			Alle anzeigen
+		{:else}
+			{filter(itemsout, { angebot: true }).length} Angebot Anzeigen
+		{/if}
 	</button>
+	{#if !$filterParams.isEmpty()}
+		<button
+			class="col-span-4 bg-red rounded-full p-3 mx-16"
+			on:click={() => {
+				$filterParams = {};
+				goto(getNewURL(), { replaceState: true, noscroll: true });
+			}}>Auswahl zurücksetzen</button
+		>
+	{/if}
 </section>
 
-<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2">
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-2">
 	<slot items={itemsout} />
 </section>

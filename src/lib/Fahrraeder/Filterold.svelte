@@ -14,7 +14,6 @@
 		items.forEach((item) => {
 			Object.keys(item.taxonomies).forEach((key) => {
 				if (item.taxonomies[key] == 'antrieb') {
-					console.log(antriebe, key);
 					if (!antriebe.includes(key)) {
 						antriebe.push(key);
 					}
@@ -33,7 +32,6 @@
 		});
 	});
 	function filter() {
-		console.log(items);
 		let excludedFilter;
 		items
 			.filter(

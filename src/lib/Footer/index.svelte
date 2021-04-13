@@ -45,10 +45,13 @@
 
 		<img src="/images/icon_vsf.png" alt="" class="absolute bg-white right-0 -bottom-4 p-4 w-48" />
 	</div>
-	<div class="flex justify-center items-center flex-col p-4 text-sm">
+	<div
+		class="relative flex justify-center items-center flex-col p-4 text-sm md:justify-start md:items-start"
+	>
 		<div
+			class="absolute right-8 text-2xl top-1/3"
 			on:click={() => {
-				document.body.scrollIntoView();
+				document.body.scrollIntoView({ behavior: 'smooth' });
 			}}
 		>
 			<i class="fas fa-sort-up my-4" />

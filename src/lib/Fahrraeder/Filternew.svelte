@@ -170,7 +170,6 @@
     }));
   }
 	// const filter =  () => {
-	// 	console.log(items);
 	// 	let excludedFilter;
 	// 	items
 	// 		.filter(

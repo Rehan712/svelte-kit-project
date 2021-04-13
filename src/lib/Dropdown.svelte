@@ -1,7 +1,7 @@
 <script>
 	import { writable } from 'svelte/store';
-
 	import { slide, fade } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 
 	export let items = [];
 	export let placeholder = '';
@@ -10,6 +10,7 @@
 	export let itemsout;
 	export let filter;
 	export let filterParams;
+
 	let possibilitys = writable({});
 	let extended = false;
 	let preFilterTemplate = {};
@@ -17,11 +18,19 @@
 	$: setPossibilitys(itemsout, filterParams);
 
 	function setPossibilitys(itemsout, e) {
-		console.log(filterParams);
 		items.forEach((e) => {
 			preFilterTemplate[type] = e;
 			$possibilitys[e.slugg] = filter(itemsout, { ...filterParams, ...preFilterTemplate }).length;
 		});
+	}
+
+	function getNewURL() {
+		let returnstr = '/';
+		if (filterParams.marke) returnstr += `marke/${filterParams.marke.slugg}/`;
+		if (filterParams.type) returnstr += `fahrradtyp/${filterParams.type.slugg}/`;
+		if (filterParams.antrieb) returnstr += `antrieb/${filterParams.antrieb.slugg}/`;
+		if (filterParams.angebot) returnstr += `angebot/angebote-anzeigen/`;
+		return returnstr;
 	}
 </script>
 
@@ -40,6 +49,7 @@
 				class="fas fa-times"
 				on:click={() => {
 					selected = null;
+					goto(getNewURL(), { replaceState: true, noscroll: true });
 				}}
 			/>
 		{/if}
@@ -55,6 +65,7 @@
 				<div
 					on:click={() => {
 						selected = item;
+						goto(getNewURL(), { replaceState: true, noscroll: true });
 					}}
 					class="flex gap-2"
 				>
