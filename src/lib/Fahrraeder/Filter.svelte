@@ -30,17 +30,17 @@
 		categorys = {};
 		items.forEach((item) => {
 			Object.keys(item.taxonomies).forEach((key) => {
-				if (item.taxonomies[key] == 'antrieb') {
+				if (item.taxonomies[key] === 'antrieb') {
 					if (!antriebe.includes(key)) {
 						antriebe.push(key);
 					}
 				}
-				if (item.taxonomies[key] == 'marke') {
+				if (item.taxonomies[key] === 'marke') {
 					if (!marken.includes(key)) {
 						marken.push(key);
 					}
 				}
-				if (item.taxonomies[key] == 'fahrradtyp') {
+				if (item.taxonomies[key] === 'fahrradtyp') {
 					if (!fahrradtypen.includes(key)) {
 						fahrradtypen.push(key);
 					}

@@ -14,8 +14,8 @@
 	on:mouseleave={() => (hover = false)}
 >
 	<div>
-		<img src="https://dummyimage.com/400x300/222/999.png?text=Test" alt="" class="w-full" />
-		<!-- <img src={item.file} alt="" /> -->
+<!--		<img src="https://dummyimage.com/400x300/222/999.png?text=Test" alt="" class="w-full" />-->
+		 <img src={item.file} alt="" />
 	</div>
 	<div
 		class="h-full relative p-2"

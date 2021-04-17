@@ -6,6 +6,7 @@
 	import { flip } from 'svelte/animate';
 
 	let items = res[0].data;
+	// let items;
 
 	onMount(() => {
 		// const endpoint =
@@ -13,7 +14,7 @@
 		// fetch(endpoint)
 		// 	.then((r) => r.json())
 		// 	.then((r) => {
-		// 		data = r[0].data;
+		// 		items = r[0].data;
 		// 	});
 	});
 </script>
