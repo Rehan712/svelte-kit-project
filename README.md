@@ -1,42 +1,56 @@
-# create-svelte
+## SvelteKit (vite) with Tailwind
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);
 
-## Creating a project
+## now version 0.0.3
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **SvelteKit beta**
+  ```
+  @sveltejs/kit 1.0.0.next-71 
+  @sveltejs/adapter-static 1.0.0.next-4
+  ```
+- using `@tailwindcss/jit`
+- replace `postcss-preset-env to postcss-nested` // fell free to replace it back
+- add transition
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
+## version 0.0.2
 
-# create a new project in my-app
-npm init svelte@next my-app
+```
+@sveltejs/kit 1.0.0.next-49
+@sveltejs/adapter-static 1.0.0.next-3
 ```
 
-> Note: the `@next` is temporary
+## Demo
 
-## Developing
+![Sveltekit with Tailwind](screenshot.png)
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Go to [**Live Demo**](https://sveltekit-tailwind2.netlify.app/)
+
+## Running the project
+
+Clone this repo and cd to the directory, then run npm or yarn
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+npx degit dansvel/sveltekit-typescript-postcss-tailwind2 myproject
+cd myproject
+pnpm install ## or npm or yarn
+pnpm run dev
 ```
 
-## Building
+Open up your favorite browser, go to localhost:3000 and try clicking around.
 
-Svelte apps are built with _adapters_, which optimise your project for deployment to different environments.
+Or you can play with the code, just check `src/routes/index.svelte` and try to edit the CSS.
 
-By default, `npm run build` will generate a Node app that you can run with `node build`. To use a different adapter, add it to the `devDependencies` in `package.json` making sure to specify the version as `next` and update your `svelte.config.cjs` to [specify your chosen adapter](https://kit.svelte.dev/docs#configuration-adapter). The following official adapters are available:
+## build and generate static web
 
-- [@sveltejs/adapter-node](https://github.com/sveltejs/kit/tree/master/packages/adapter-node)
-- [@sveltejs/adapter-static](https://github.com/sveltejs/kit/tree/master/packages/adapter-static)
-- [@sveltejs/adapter-netlify](https://github.com/sveltejs/kit/tree/master/packages/adapter-netlify)
-- [@sveltejs/adapter-vercel](https://github.com/sveltejs/kit/tree/master/packages/adapter-vercel)
-- ...more soon
+```bash
+pnpm run build
+```
 
-[See the adapter documentation for more detail](https://kit.svelte.dev/docs#adapters)
+with the command above, now you can generate static web, you can deploy the project in netlify, begin, vercel or else
+
+## Documentation
+ - dev.to post [here](https://dev.to/dansvel/sveltekit-svelte-next-with-tailwind-2-4dnn) are outdate.
+ - please read the [official documentation](https://github.com/sveltejs/kit/tree/master/documentation)
+## Credits
+
+- [svelte-local-storage-store](https://github.com/joshnuss/svelte-local-storage-store) by Joshua Nussbaum
